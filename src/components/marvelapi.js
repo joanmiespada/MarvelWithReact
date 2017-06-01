@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {getHeroes} from '../actions/marvelapi';
 import { connect } from 'react-redux';
 
+import { Form, Button,FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+
 const List = ({ items, filterBy }) => {  
   return (
     <ul>
@@ -12,6 +14,18 @@ const List = ({ items, filterBy }) => {
       }
     </ul>
   )
+}
+
+function FieldGroup({ id, label, help, ...props }) {
+  return (
+    <FormGroup controlId={id}>
+      <ControlLabel>{label}</ControlLabel>
+      {' '}
+      <FormControl {...props} />
+      {' '}
+      {help && <HelpBlock>{help}</HelpBlock>}
+    </FormGroup>
+  );
 }
 
 class ListHeroes extends Component
@@ -31,14 +45,25 @@ class ListHeroes extends Component
 
         return (
             <div>
-                <input type="text" onChange={(ev) => this.updateFilter(ev) }/>
+                <Form inline>               
+                    <FieldGroup
+                        id="formControlsText"
+                        label="Search"
+                        help=""
+                        type="text"
+                        placeholder="Enter name heroe"
+                        /> 
+                    
+                    
+                    <Button onClick={(ev) => this.updateFilter(ev) }>Search</Button>
+                </Form>
                 <List items={this.props.heroes}  />
             </div>
         )
     }
 }
 
-//  
+//  onChange={(ev) => this.updateFilter(ev) }
 // 
 
 const mapStateToProps = (state, ownProps) => {
